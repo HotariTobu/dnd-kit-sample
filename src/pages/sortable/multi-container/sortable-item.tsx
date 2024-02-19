@@ -1,19 +1,11 @@
-import { UniqueIdentifier } from "@dnd-kit/core";
-import { useSortable } from "@dnd-kit/sortable";
+import { ReactNode } from "react";
 import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+import { Item } from "./item";
 
-export const Item = (props: {
-  id: UniqueIdentifier
-}) => {
-  return (
-    <div className="bg-white border border-blue-600 h-16 flex items-center justify-center">
-      {props.id}
-    </div>
-  );
-}
-
-export const SortableItem = (props: {
-  itemId: UniqueIdentifier
+export const SortableItem = <I extends Item>(props: {
+  item: I
+  Content: (props: { item: I }) => ReactNode
 }) => {
   const {
     active,
@@ -22,17 +14,17 @@ export const SortableItem = (props: {
     setNodeRef,
     transform,
     transition
-  } = useSortable({ id: props.itemId });
+  } = useSortable({ id: props.item.id, });
 
   const style = {
-    opacity: props.itemId === active?.id ? 0 : 1,
+    opacity: props.item.id === active?.id ? 0 : 1,
     transform: CSS.Transform.toString(transform),
     transition
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Item id={props.itemId} />
+      <props.Content item={props.item} />
     </div>
   );
 }

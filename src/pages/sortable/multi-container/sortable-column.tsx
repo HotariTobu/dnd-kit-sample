@@ -1,32 +1,28 @@
+import { HTMLAttributes } from "react";
 import { UniqueIdentifier, useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
+import { Item } from "./item";
 
-import { SortableItem } from "./sortable-item";
-
-export const SortableColumn = (props: {
+interface Props<I> extends HTMLAttributes<HTMLDivElement> {
   containerId: UniqueIdentifier
-  items: UniqueIdentifier[]
-}) => {
+  items: I[]
+}
+
+export const SortableColumn = <I extends Item>({ containerId, items, ...props }: Props<I>) => {
   const { setNodeRef } = useDroppable({
-    id: props.containerId
+    id: containerId
   });
 
   return (
     <SortableContext
-      id={String(props.containerId)}
-      items={props.items}
+      id={String(containerId)}
+      items={items}
       strategy={verticalListSortingStrategy}
     >
-      <div className=" bg-slate-200 p-2 flex-1" ref={setNodeRef}>
-        <div className="gap-2 flex flex-col">
-          {props.items.map((id) => (
-            <SortableItem key={id} itemId={id} />
-          ))}
-        </div>
-      </div>
+      <div ref={setNodeRef} {...props} />
     </SortableContext>
   );
 }

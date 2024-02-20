@@ -17,6 +17,7 @@ import {
 import { SortableData, arrayMove } from "@dnd-kit/sortable";
 import { arrayInsert, arrayRemove } from "./arrayUtils";
 import { Item } from "./item";
+import { closestCorner } from "./closestCorner";
 
 type ItemsMap<I> = Map<UniqueIdentifier, I[]>
 
@@ -32,17 +33,18 @@ export const SortableContainer = <I extends Item>({ itemsMap, setItemsMap, modif
   const [activeItem, setActiveItem] = useState<I | null>(null);
 
   const detectCollision: CollisionDetection = args => {
-    const cornerCollisions = closestCorners(args)
+    const cornerCollisions = closestCorner(args)
+    const cornersCollisions = closestCorners(args)
 
     const closestContainer = cornerCollisions.find(c => {
       return itemsMap.has(c.id)
     })
 
     if (typeof closestContainer === 'undefined') {
-      return cornerCollisions
+      return cornersCollisions
     }
 
-    const collisions = cornerCollisions.filter(({ data }) => {
+    const collisions = cornersCollisions.filter(({ data }) => {
       if (typeof data === 'undefined') {
         return false
       }

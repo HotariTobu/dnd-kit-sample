@@ -35,10 +35,10 @@ export default () => {
   const [tasksMap, setTasksMap] = useState(initialTasksMap)
 
   const sensor = useSensor(PointerSensor, {
-    activationConstraint: {
-      delay: 200,
-      tolerance: 10,
-    }
+    // activationConstraint: {
+    //   delay: 200,
+    //   tolerance: 10,
+    // }
   })
 
   const sensors = useSensors(sensor)

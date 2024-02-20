@@ -9,23 +9,23 @@ type Coordinates = {
  * Returns the coordinates of the corners of a given rectangle:
  * [TopLeft {x, y}, TopRight {x, y}, BottomLeft {x, y}, BottomRight {x, y}]
  */
-function cornersOfRectangle({ left, top, height, width }: ClientRect) {
+const cornersOfRectangle = (rect: ClientRect) => {
   return [
     {
-      x: left,
-      y: top,
+      x: rect.left,
+      y: rect.top,
     },
     {
-      x: left + width,
-      y: top,
+      x: rect.right,
+      y: rect.top,
     },
     {
-      x: left,
-      y: top + height,
+      x: rect.left,
+      y: rect.bottom,
     },
     {
-      x: left + width,
-      y: top + height,
+      x: rect.right,
+      y: rect.bottom,
     },
   ];
 }
@@ -33,15 +33,14 @@ function cornersOfRectangle({ left, top, height, width }: ClientRect) {
 /**
  * Returns the distance between two points
  */
-function distanceBetween(p1: Coordinates, p2: Coordinates) {
+const distanceBetween = (p1: Coordinates, p2: Coordinates) => {
   const disX = p1.x - p2.x
   const disY = p1.y - p2.y
   return disX * disX + disY * disY
 }
 
 /**
- * Returns the closest rectangles from an array of rectangles to the corners of
- * another rectangle.
+ * Returns the closest rectangles from an array of rectangles to the closest corner of another rectangle.
  */
 export const closestCorner: CollisionDetection = ({
   collisionRect,

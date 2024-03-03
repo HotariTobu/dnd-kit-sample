@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PointerSensor, UniqueIdentifier, useSensor, useSensors } from "@dnd-kit/core";
 import { Item } from "./item";
 import { SortableContainer } from "./sortable-container";
-import { SortableColumn } from "./sortable-column";
+import { SortableZone } from "./sortable-zone";
 import { SortableItem } from "./sortable-item";
 
 interface Task extends Item {
@@ -44,16 +44,19 @@ export default () => {
   const sensors = useSensors(sensor)
 
   return (
-    <SortableContainer className="gap-2 flex flex-row" sensors={sensors} itemsMap={tasksMap} setItemsMap={setTasksMap} Overlay={TaskNode} >
-      {Array.from(tasksMap).map(([containerId, tasks]) => (
-        <SortableColumn className="bg-slate-200 p-2 flex-1" containerId={containerId} items={tasks} key={containerId}>
-          <div className="gap-2 flex flex-col">
-            {tasks.map(task => (
-              <SortableItem item={task} Content={TaskNode} key={task.id} />
-            ))}
-          </div>
-        </SortableColumn>
-      ))}
-    </SortableContainer>
+    <>
+      <div>Multiple Container</div>
+      <SortableContainer className="gap-2 flex flex-row" sensors={sensors} itemsMap={tasksMap} setItemsMap={setTasksMap} Overlay={TaskNode} >
+        {Array.from(tasksMap).map(([containerId, tasks]) => (
+          <SortableZone className="bg-slate-200 p-2 flex-1" containerId={containerId} items={tasks} key={containerId}>
+            <div className="gap-2 flex flex-col">
+              {tasks.map(task => (
+                <SortableItem item={task} Content={TaskNode} key={task.id} />
+              ))}
+            </div>
+          </SortableZone>
+        ))}
+      </SortableContainer>
+    </>
   )
 }

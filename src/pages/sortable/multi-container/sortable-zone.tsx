@@ -2,6 +2,7 @@ import { HTMLAttributes } from "react";
 import { UniqueIdentifier, useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
+  SortingStrategy,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { Item } from "./item";
@@ -9,9 +10,10 @@ import { Item } from "./item";
 interface Props<I> extends HTMLAttributes<HTMLDivElement> {
   containerId: UniqueIdentifier
   items: I[]
+  strategy?: SortingStrategy
 }
 
-export const SortableColumn = <I extends Item>({ containerId, items, ...props }: Props<I>) => {
+export const SortableZone = <I extends Item>({ containerId, items, strategy = verticalListSortingStrategy, ...props }: Props<I>) => {
   const { setNodeRef } = useDroppable({
     id: containerId
   });
@@ -20,7 +22,7 @@ export const SortableColumn = <I extends Item>({ containerId, items, ...props }:
     <SortableContext
       id={String(containerId)}
       items={items}
-      strategy={verticalListSortingStrategy}
+      strategy={strategy}
     >
       <div ref={setNodeRef} {...props} />
     </SortableContext>

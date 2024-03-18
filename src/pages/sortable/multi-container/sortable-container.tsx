@@ -132,10 +132,6 @@ export const SortableContainer = <I extends Item>({ itemsMap, setItemsMap, modif
 
     const { from, to } = data
 
-    // console.log(event.collisions)
-    // console.log(from)
-    // console.log(to)
-
     if (from.containerId === to.containerId) {
       return
     }
